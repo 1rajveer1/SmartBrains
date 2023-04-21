@@ -4,7 +4,9 @@ import Logo from './componenets/Logo/Logo';
 import Navigation from './componenets/navigation/Navigation';
 import FaceRecognition from './componenets/FaceRecognition/FaceRecognition';
 import ImageLinkForm from './componenets/ImageLinkForm/ImageLinkForm';
+import SignIn from './componenets/SignIn/SignIn';
 import Rank from './componenets/Rank/Rank';
+import Register from './componenets/Register/Register';
 import Particle from './componenets/ParticleComponent/ParticleComponent';
 
 
@@ -58,6 +60,8 @@ class App extends React.Component {
       input: '',
       imageUrl: '',
       box: {},
+      route: 'signIn',
+      isSignedIn: false,
     }
   };
 
@@ -93,15 +97,36 @@ class App extends React.Component {
     .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
     .catch(err => console.log(err));
   }
+
+  onRouteChange = (route) =>{
+    if (route === 'signout'){
+      this.setState({isSignedIn: false})
+    }else if (route === 'home'){
+      this.setState({isSignedIn: true})
+    }
+    this.setState({route: route})
+    console.log('is signed in',this.state.isSignedIn)
+  }
+  
   render (){
+    // const { isSignedIn, imageUrl, route, box } = this.state;
   return (
     <div className="App">
       <Particle />
-      <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm onInputChange = {this.onInputChange} onButtonSumbit = {this.onButtonSumbit}/>
-      {<FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl} /> }
+      <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
+      { this.state.route === 'home' ? 
+        <div>
+        <Logo />
+        <Rank />
+        <ImageLinkForm onInputChange = {this.onInputChange} onButtonSumbit = {this.onButtonSumbit}/>
+        <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl} /> 
+      </div>
+        : (
+          this.state.route === 'signIn' ?
+          <SignIn onRouteChange={this.onRouteChange}/> :
+          <Register onRouteChange={this.onRouteChange}/>
+        )
+  }
     </div>
   );
 }
