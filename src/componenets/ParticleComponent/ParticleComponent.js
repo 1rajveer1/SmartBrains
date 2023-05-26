@@ -20,13 +20,9 @@ const Particle = () => {
             init={particlesInit}
             loaded={particlesLoaded}
             options={{
-                fpsLimit: 60,
+                fpsLimit: 30,
                 interactivity: {
                     events: {
-                        onClick: {
-                            enable: true,
-                            mode: "push",
-                        },
                         onHover: {
                             enable: true,
                             mode: "repulse",
