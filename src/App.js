@@ -110,14 +110,12 @@ class App extends React.Component {
 
   onButtonSumbit = () => {
     this.setState({imageUrl: this.state.input})
-    console.log('hi',this.state.user)
     // const url = this.state.input;
-    console.log('yup',this.state)
     fetch("https://api.clarifai.com/v2/models/" + 'face-detection' + "/outputs", clarifySteup(this.state.input))
     .then(response => response.json())
     .then(response => {
       if(response){
-        fetch('http://localhost:3000/image', {
+        fetch('https://face-recognition-app-api-3z3n.onrender.com/image', {
         method: 'put',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
